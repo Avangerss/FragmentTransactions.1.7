@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.lesson1kotlin3.R
+import com.example.lesson1kotlin3.data.models.MainViewModel
 import com.example.lesson1kotlin3.data.models.SekondViewModel
 import com.example.lesson1kotlin3.data.models.UserModel
 import com.example.lesson1kotlin3.databinding.FragmentSekondBinding
@@ -34,19 +35,15 @@ class SecondFragment : Fragment() {
     }
 
     private fun initialize() {
-        val preferenceHelper = SharedPreferens(requireActivity())
-        secondViewModel.updateUserModel(
-            UserModel(
-                preferenceHelper.user_name!!,
-                preferenceHelper.age!!,
-                preferenceHelper.user_email!!,
-                preferenceHelper.user_password!!
-            )
-        )
+        secondViewModel.huynia(requireContext())
     }
 
     private fun setupObserver() = with(binding) {
-        secondViewModel.userData.observe(viewLifecycleOwner) { it ->
+        secondViewModel.userData.observe(viewLifecycleOwner) { userData ->
+            text1.text = userData.userName
+            text2.text = userData.age
+            text3.text = userData.email
+            text4.text = userData.password
         }
         btnSekond.setOnClickListener {
             findNavController().navigate(R.id.action_secondFragment_to_thirdFragment)
